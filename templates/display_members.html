@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Input</title>
+</head>
+<body>
+    <h2>Total Bonuses</h2>
+    <p><strong>Sponsor Bonus:</strong> {{ results.total_sponsor_bonus }}</p>
+    <p><strong>Binary Bonus:</strong> {{ results.total_binary_bonus }}</p>
+    <p><strong>Matching Bonus:</strong> {{ results.total_matching_bonus }}</p>
+    <h2>Tree Structure</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Parent ID</th>
+                <th>Level</th>
+                <th>Position</th>
+                <th>Left Sale</th>
+                <th>Right Sale</th>
+                <th>Sponsor Bonus</th>
+                <th>Binary Bonus</th>
+                <th>Matching Bonus</th>
+                <th>Carry Forward</th>
+                <th>Carry Forward Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for node in results.tree_structure %}
+                <tr>
+                    <td>{{ node.ID }}</td>
+                    <td>{{ node.ParentID }}</td>
+                    <td>{{ node.Level }}</td>
+                    <td>{{ node.Position }}</td>
+                    <td>{{ node.LeftSales }}</td>
+                    <td>{{ node.RightSales }}</td>
+                    <td>{{ node.SponsorBonus }}</td>
+                    <td>{{ node.BinaryBonus }}</td>
+                    <td>{{ node.MatchingBonus }}</td>
+                    <td>{{ node.CarryForward }}</td>
+                    <td>{{ node.CarryForwardPosition }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+</body>
+</html>
