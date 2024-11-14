@@ -14,6 +14,7 @@ def user_input_view(request):
         if form.is_valid():
             num_of_users = form.cleaned_data['num_of_users']
             package_price = form.cleaned_data['package_price']
+            plan_type = form.cleaned_data['plan_type']
             sponsor_bonus_percentage = form.cleaned_data['sponsor_bonus_percentage']
             binary_bonus_percentage = form.cleaned_data['binary_bonus_percentage']
             lev1_percentage = form.cleaned_data['lev1_percentage']
@@ -25,6 +26,7 @@ def user_input_view(request):
             data = {
                 "num_of_users":num_of_users,
                 "package_price":package_price,
+                "plan_type":plan_type,
                 "sponsor_bonus_percentage":sponsor_bonus_percentage,
                 "binary_bonus_percentage":binary_bonus_percentage,
                 "lev1_percentage":lev1_percentage,

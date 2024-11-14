@@ -3,6 +3,7 @@ from django import forms
 class FormData(forms.Form):
     num_of_users = forms.IntegerField(label="Enter the numberof users",required=True)
     package_price = forms.FloatField(label="Enter the price of the package",required=True)
+    plan_type = forms.CharField(label="Enter the plan type binary / unilevel",required = True)
     sponsor_bonus_percentage = forms.IntegerField(label="Enter Sponsor Bonus Percentage")
     binary_bonus_percentage = forms.IntegerField(label="Enter Binary Bonus Percentage")
     lev1_percentage = forms.IntegerField(label="Enter Level 1 Matching Bonus Percentage")
