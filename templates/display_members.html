@@ -11,39 +11,28 @@
     <p><strong>Binary Bonus:</strong> {{ results.total_binary_bonus }}</p>
     <p><strong>Matching Bonus:</strong> {{ results.total_matching_bonus }}</p>
     <h2>Tree Structure</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Parent ID</th>
-                <th>Level</th>
-                <th>Position</th>
-                <th>Left Sale</th>
-                <th>Right Sale</th>
-                <th>Sponsor Bonus</th>
-                <th>Binary Bonus</th>
-                <th>Matching Bonus</th>
-                <th>Carry Forward</th>
-                <th>Carry Forward Position</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for node in results.tree_structure %}
+    
+    {% if results.tree_structure %}
+        <table border="1">
+            <thead>
                 <tr>
-                    <td>{{ node.ID }}</td>
-                    <td>{{ node.ParentID }}</td>
-                    <td>{{ node.Level }}</td>
-                    <td>{{ node.Position }}</td>
-                    <td>{{ node.LeftSales }}</td>
-                    <td>{{ node.RightSales }}</td>
-                    <td>{{ node.SponsorBonus }}</td>
-                    <td>{{ node.BinaryBonus }}</td>
-                    <td>{{ node.MatchingBonus }}</td>
-                    <td>{{ node.CarryForward }}</td>
-                    <td>{{ node.CarryForwardPosition }}</td>
+                    {% for field in results.tree_structure.0.keys %}
+                        <th>{{ field|capfirst }}</th>
+                    {% endfor %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table> 
+            </thead>
+            <tbody>
+                {% for node in results.tree_structure %}
+                    <tr>
+                        {% for value in node.values %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No data available to display.</p>
+    {% endif %}
 </body>
 </html>
