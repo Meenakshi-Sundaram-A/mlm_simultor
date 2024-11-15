@@ -79,6 +79,7 @@ def user_input_view(request):
                     "package_price":unilevel_form.cleaned_data['package_price'],
                     "sponsor_bonus_percentage":unilevel_form.cleaned_data['sponsor_bonus_percentage'],
                     "max_child":unilevel_form.cleaned_data['max_child'],
+                    "capping_amount":unilevel_form.cleaned_data['capping_amount'],
                     "plan_type":"unilevel",
                 }
             

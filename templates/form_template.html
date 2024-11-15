@@ -6,17 +6,15 @@
     <title>Form Input</title>
     <script>
         function showForm(formId) {
-            // Show the correct form
             document.getElementById("binaryForm").style.display = formId === 'binaryForm' ? 'block' : 'none';
             document.getElementById("unilevelForm").style.display = formId === 'unilevelForm' ? 'block' : 'none';
 
-            // Set the appropriate planType value based on the selected form
             if (formId === 'binaryForm') {
                 document.getElementById("binaryPlanType").value = 'binary';
-                document.getElementById("unilevelPlanType").value = '';  // Clear other form's value
+                document.getElementById("unilevelPlanType").value = '';  
             } else if (formId === 'unilevelForm') {
                 document.getElementById("unilevelPlanType").value = 'unilevel';
-                document.getElementById("binaryPlanType").value = '';  // Clear other form's value
+                document.getElementById("binaryPlanType").value = ''; 
             }
         }
     </script>
@@ -27,7 +25,6 @@
     <label><input type="radio" name="plan_type" value="binary" onclick="showForm('binaryForm')"> Binary Level</label>
     <label><input type="radio" name="plan_type" value="unilevel" onclick="showForm('unilevelForm')"> Unilevel</label>
 
-    <!-- Unilevel Form -->
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="plan_type" id="unilevelPlanType">
@@ -37,7 +34,6 @@
         </div>
     </form>
     
-    <!-- Binary Form -->
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="plan_type" id="binaryPlanType">

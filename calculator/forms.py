@@ -22,8 +22,9 @@ class FormData(forms.Form):
     
     
 class UniLevelFormData(forms.Form):
-    num_of_users = forms.IntegerField(label="Enter the numberof users",required=True)
+    num_of_users = forms.IntegerField(label="Enter the number of Users",required=True)
     package_price = forms.FloatField(label="Enter the price of the package",required=True)
     sponsor_bonus_percentage = forms.IntegerField(label="Enter Sponsor Bonus Percentage")
     max_child = forms.IntegerField(label="Enter max children per person", required=True)
+    capping_amount = forms.IntegerField(label="Enter the Capping Amount")
     
