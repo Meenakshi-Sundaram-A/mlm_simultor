@@ -4,16 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Input</title>
+    <script>
+        function showForm(formId) {
+            // Show the correct form
+            document.getElementById("binaryForm").style.display = formId === 'binaryForm' ? 'block' : 'none';
+            document.getElementById("unilevelForm").style.display = formId === 'unilevelForm' ? 'block' : 'none';
+
+            // Set the appropriate planType value based on the selected form
+            if (formId === 'binaryForm') {
+                document.getElementById("binaryPlanType").value = 'binary';
+                document.getElementById("unilevelPlanType").value = '';  // Clear other form's value
+            } else if (formId === 'unilevelForm') {
+                document.getElementById("unilevelPlanType").value = 'unilevel';
+                document.getElementById("binaryPlanType").value = '';  // Clear other form's value
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Enter MLM Configuration</h1>
-    
+
+    <label><input type="radio" name="plan_type" value="binary" onclick="showForm('binaryForm')"> Binary Level</label>
+    <label><input type="radio" name="plan_type" value="unilevel" onclick="showForm('unilevelForm')"> Unilevel</label>
+
+    <!-- Unilevel Form -->
     <form method="POST">
         {% csrf_token %}
-        
-        {{ form.as_p }}
-        
-        <button type="submit">Submit</button>
+        <input type="hidden" name="plan_type" id="unilevelPlanType">
+        <div id="unilevelForm" style="display:none;">
+            {{ unilevel_form.as_p }}
+            <button type="submit">Submit Unilevel Form</button>
+        </div>
+    </form>
+    
+    <!-- Binary Form -->
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="plan_type" id="binaryPlanType">
+        <div id="binaryForm" style="display:none;">
+            {{ binary_form.as_p }}
+            <button type="submit">Submit Binary Form</button>
+        </div>
     </form>
 </body>
 </html>
