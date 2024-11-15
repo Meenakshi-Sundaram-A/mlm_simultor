@@ -4,53 +4,6 @@ from .forms import FormData, UniLevelFormData
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
-
-# Create your views here.
-# def user_input_view(request):
-#     if request.method == "POST":
-#         form = FormData(request.POST)
-        
-#         if form.is_valid():
-#             num_of_users = form.cleaned_data['num_of_users']
-#             package_price = form.cleaned_data['package_price']
-#             plan_type = form.cleaned_data['plan_type']
-#             sponsor_bonus_percentage = form.cleaned_data['sponsor_bonus_percentage']
-#             binary_bonus_percentage = form.cleaned_data['binary_bonus_percentage']
-#             lev1_percentage = form.cleaned_data['lev1_percentage']
-#             lev2_percentage = form.cleaned_data['lev2_percentage']
-#             capping_scope = form.cleaned_data['capping_scope']
-#             capping_amount = form.cleaned_data['capping_amount']
-#             carry_yes_no = form.cleaned_data['carry_yes_no']
-            
-#             data = {
-#                 "num_of_users":num_of_users,
-#                 "package_price":package_price,
-#                 "plan_type":plan_type,
-#                 "sponsor_bonus_percentage":sponsor_bonus_percentage,
-#                 "binary_bonus_percentage":binary_bonus_percentage,
-#                 "lev1_percentage":lev1_percentage,
-#                 "lev2_percentage":lev2_percentage,
-#                 "capping_scope":capping_scope,
-#                 "capping_amount":capping_amount,
-#                 "carry_yes_no":carry_yes_no
-#             }
-            
-#             try:
-#                 response = requests.post('http://localhost:8080/api/processData', json=data)
-#                 response.raise_for_status()
-#                 results = response.json()
-#                 return render(request, 'display_members.html', {
-#                     'results': results,
-#                 })
-#             except requests.exceptions.RequestException as e:
-#                 return JsonResponse({'error': f'Failed to communicate with Go server: {str(e)}'}, status=500)
-#         else:
-#             return render(request, 'form_template.html', {'form': form})
-            
-#     else:
-#         form = FormData()
-#         return render(request, 'form_template.html', {'form': form})
     
 def user_input_view(request):
     
