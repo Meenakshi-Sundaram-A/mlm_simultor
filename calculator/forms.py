@@ -5,8 +5,12 @@ class FormData(forms.Form):
     package_price = forms.FloatField(label="Enter the price of the package",required=True)
     sponsor_bonus_percentage = forms.IntegerField(label="Enter Sponsor Bonus Percentage",required=True)
     binary_bonus_percentage = forms.IntegerField(label="Enter Binary Bonus Percentage",required=True)
-    lev1_percentage = forms.IntegerField(label="Enter Level 1 Matching Bonus Percentage",required=True)
-    lev2_percentage = forms.IntegerField(label="Enter Level 2 Matching Bonus Percentage",required=True)
+    # lev1_percentage = forms.IntegerField(label="Enter Level 1 Matching Bonus Percentage",required=True)
+    # lev2_percentage = forms.IntegerField(label="Enter Level 2 Matching Bonus Percentage",required=True)
+    matching_bonus_percentages = forms.CharField(
+        label="Enter Matching Bonus Percentages (eg: 50,25,10)",
+        required=True,
+    )
     CAPPING_SCOPE_CHOICE = [
         ('binary_bonus', 'Binary Bonus'),
         ('sponsor_bonus', 'Sponsor Bonus'),
