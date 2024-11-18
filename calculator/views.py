@@ -1,4 +1,5 @@
 import json
+import math
 import requests
 from .forms import FormData, UniLevelFormData
 from django.http import JsonResponse
@@ -14,17 +15,28 @@ def user_input_view(request):
     
     if request.method == "POST":
         if plan_type == "binary" and binary_form.is_valid():
+            
             percentages_str = binary_form.cleaned_data['matching_bonus_percentages']
             matching_bonus_percentages = [int(x.strip()) for x in percentages_str.split(",")]
+            
+            product_price_str = binary_form.cleaned_data['product_price']
+            product_price = [int(x.strip()) for x in product_price_str.split(",")]
+            
+            users_per_product_str = binary_form.cleaned_data['users_per_product']
+            users_per_product = [int(x.strip()) for x in users_per_product_str.split(",")]
+            cycle = math.ceil(binary_form.cleaned_data['num_of_users'] / (sum(users_per_product)))
+            
             data = {
                     "num_of_users": binary_form.cleaned_data['num_of_users'],
-                    "package_price":binary_form.cleaned_data['package_price'],
+                    "product_price":product_price,
+                    "users_per_product":users_per_product,
                     "sponsor_bonus_percentage":binary_form.cleaned_data['sponsor_bonus_percentage'],
                     "binary_bonus_percentage":binary_form.cleaned_data['binary_bonus_percentage'],
                     "percentage_string":matching_bonus_percentages,
                     "capping_scope":binary_form.cleaned_data['capping_scope'],
                     "capping_amount":binary_form.cleaned_data['capping_amount'],
                     "carry_yes_no":binary_form.cleaned_data['carry_yes_no'],
+                    "cycle":cycle,
                     "plan_type":"binary",
                 }
         elif plan_type == "unilevel" and unilevel_form.is_valid():

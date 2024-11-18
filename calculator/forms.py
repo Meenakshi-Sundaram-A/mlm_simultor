@@ -2,7 +2,14 @@ from django import forms
 
 class FormData(forms.Form):
     num_of_users = forms.IntegerField(label="Enter the numberof users",required=True)
-    package_price = forms.FloatField(label="Enter the price of the package",required=True)
+    product_price = forms.CharField(
+        label="Enter Product Price (eg: 50,25,10)",
+        required=True,
+    )
+    users_per_product = forms.CharField(
+        label="Enter No of User per Product (eg: 50,25,10)",
+        required=True,
+    )
     sponsor_bonus_percentage = forms.IntegerField(label="Enter Sponsor Bonus Percentage",required=True)
     binary_bonus_percentage = forms.IntegerField(label="Enter Binary Bonus Percentage",required=True)
     matching_bonus_percentages = forms.CharField(
