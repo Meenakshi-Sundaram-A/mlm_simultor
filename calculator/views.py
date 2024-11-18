@@ -21,8 +21,6 @@ def user_input_view(request):
                     "package_price":binary_form.cleaned_data['package_price'],
                     "sponsor_bonus_percentage":binary_form.cleaned_data['sponsor_bonus_percentage'],
                     "binary_bonus_percentage":binary_form.cleaned_data['binary_bonus_percentage'],
-                    # "lev1_percentage":binary_form.cleaned_data['lev1_percentage'],
-                    # "lev2_percentage":binary_form.cleaned_data['lev2_percentage'],
                     "percentage_string":matching_bonus_percentages,
                     "capping_scope":binary_form.cleaned_data['capping_scope'],
                     "capping_amount":binary_form.cleaned_data['capping_amount'],
@@ -30,10 +28,13 @@ def user_input_view(request):
                     "plan_type":"binary",
                 }
         elif plan_type == "unilevel" and unilevel_form.is_valid():
+            percentages_str = unilevel_form.cleaned_data['matching_bonus_percentages']
+            matching_bonus_percentages = [int(x.strip()) for x in percentages_str.split(",")]
             data = {
                     "num_of_users": unilevel_form.cleaned_data['num_of_users'],
                     "package_price":unilevel_form.cleaned_data['package_price'],
                     "sponsor_bonus_percentage":unilevel_form.cleaned_data['sponsor_bonus_percentage'],
+                    "percentage_string":matching_bonus_percentages,
                     "max_child":unilevel_form.cleaned_data['max_child'],
                     "capping_amount":unilevel_form.cleaned_data['capping_amount'],
                     "plan_type":"unilevel",
