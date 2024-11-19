@@ -21,6 +21,13 @@ class FormData(forms.Form):
         ('sponsor_bonus', 'Sponsor Bonus'),
         ('matching_bonus', 'Matching Bonus'),
     ]
+    RATIO_CHOICE = [
+        ('one_one','1:1'),
+        ('one_two','1:2'),
+        ('two_one','2:1'),
+    ]
+    ratio_choice = forms.ChoiceField(choices=RATIO_CHOICE,widget=forms.RadioSelect,label="Select Ratio Choice",required=True)
+    ratio_amount = forms.IntegerField(label="Enter the Ratio Amount")
     capping_scope = forms.ChoiceField(choices=CAPPING_SCOPE_CHOICE,label="Select Capping Criteria",required=True)
     capping_amount = forms.IntegerField(label="Enter the Capping Amount")
     CARRY_CHOICE = [
