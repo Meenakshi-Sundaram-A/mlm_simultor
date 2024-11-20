@@ -33,6 +33,8 @@ def user_input_view(request):
                     "sponsor_bonus_percentage":binary_form.cleaned_data['sponsor_bonus_percentage'],
                     "binary_bonus_percentage":binary_form.cleaned_data['binary_bonus_percentage'],
                     "percentage_string":matching_bonus_percentages,
+                    "ratio_choice":binary_form.cleaned_data["ratio_choice"],
+                    "ratio_amount":binary_form.cleaned_data["ratio_amount"],
                     "capping_scope":binary_form.cleaned_data['capping_scope'],
                     "capping_amount":binary_form.cleaned_data['capping_amount'],
                     "carry_yes_no":binary_form.cleaned_data['carry_yes_no'],
