@@ -3,36 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Input</title>
+    <title>Results Display</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>Total Bonuses</h2>
-    <p><strong>Sponsor Bonus:</strong> {{ results.total_sponsor_bonus }}</p>
-    <p><strong>Binary Bonus:</strong> {{ results.total_binary_bonus }}</p>
-    <p><strong>Matching Bonus:</strong> {{ results.total_matching_bonus }}</p>
-    <h2>Tree Structure</h2>
-    
-    {% if results.tree_structure %}
-        <table border="1">
-            <thead>
-                <tr>
-                    {% for field in results.tree_structure.0.keys %}
-                        <th>{{ field }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for node in results.tree_structure %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Total Bonuses</h2>
+        <div class="mb-3">
+            <p><strong>Sponsor Bonus:</strong> {{ results.total_sponsor_bonus }}</p>
+            <p><strong>Binary Bonus:</strong> {{ results.total_binary_bonus }}</p>
+            <p><strong>Matching Bonus:</strong> {{ results.total_matching_bonus }}</p>
+        </div>
+
+        <h2 class="mb-4">Tree Structure</h2>
+        {% if results.tree_structure %}
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        {% for value in node.values %}
-                            <td>{{ value }}</td>
+                        {% for field in results.tree_structure.0.keys %}
+                            <th>{{ field }}</th>
                         {% endfor %}
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No data available to display.</p>
-    {% endif %}
+                </thead>
+                <tbody>
+                    {% for node in results.tree_structure %}
+                        <tr>
+                            {% for value in node.values %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No data available to display.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

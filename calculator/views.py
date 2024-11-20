@@ -11,7 +11,6 @@ def user_input_view(request):
     binary_form = FormData(request.POST or None)
     unilevel_form = UniLevelFormData(request.POST or None)
     plan_type = request.POST.get("plan_type","")
-    print(plan_type)
     
     if request.method == "POST":
         if plan_type == "binary" and binary_form.is_valid():
@@ -54,19 +53,21 @@ def user_input_view(request):
                     "plan_type":"unilevel",
                 }
             
-        if plan_type in ["binary", "unilevel"]:
-            try:
-                response = requests.post('http://localhost:8080/api/processData', json=data)
-                response.raise_for_status()
-                results = response.json()
-                return render(request, 'display_members.html', {'results': results})
-            except requests.exceptions.RequestException as e:
-                return JsonResponse({'error': f'Failed to communicate with Go server: {str(e)}'}, status=500)
+        else:
+            return render(request, 'form_template.html', {
+                'binary_form': binary_form,
+                'unilevel_form': unilevel_form,
+                'error_message': "Invalid input for the selected plan type."
+            })
+        
+        try:
+            response = requests.post('http://localhost:8080/api/processData', json=data)
+            response.raise_for_status()
+            results = response.json()
+            return render(request, 'display_members.html', {'results': results})
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({'error': f'Failed to communicate with Go server: {str(e)}'}, status=500)
             
-        return render(request, 'form_template.html', {
-            'binary_form': binary_form,
-            'unilevel_form': unilevel_form
-        })
     else:
         return render(request, 'form_template.html', {'binary_form': binary_form,'unilevel_form': unilevel_form})
 
