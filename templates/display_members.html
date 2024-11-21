@@ -8,36 +8,42 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Total Bonuses</h2>
-        <div class="mb-3">
-            <p><strong>Sponsor Bonus:</strong> {{ results.total_sponsor_bonus }}</p>
-            <p><strong>Binary Bonus:</strong> {{ results.total_binary_bonus }}</p>
-            <p><strong>Matching Bonus:</strong> {{ results.total_matching_bonus }}</p>
-        </div>
+        <h2 class="mb-4">Simulation Result</h2>
+        {% for result in all_results %}
+            <div class="mb-4">
+                <h3>Cycle {{ forloop.counter }}</h3>
 
-        <h2 class="mb-4">Tree Structure</h2>
-        {% if results.tree_structure %}
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        {% for field in results.tree_structure.0.keys %}
-                            <th>{{ field }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for node in results.tree_structure %}
-                        <tr>
-                            {% for value in node.values %}
-                                <td>{{ value }}</td>
+                <h4>Tree Structure</h4>
+                {% if result.tree_structure %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                {% for field in result.tree_structure.0.keys %}
+                                    <th>{{ field }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for node in result.tree_structure %}
+                                <tr>
+                                    {% for value in node.values %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
                             {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No data available to display.</p>
-        {% endif %}
+                        </tbody>
+                    </table>
+
+                <p><strong>Sponsor Bonus:</strong> {{ result.total_sponsor_bonus }}</p>
+                {% if result.total_binary_bonus %}
+                    <p><strong>Binary Bonus:</strong> {{ result.total_binary_bonus }}</p>
+                {% endif %}
+                <p><strong>Matching Bonus:</strong> {{ result.total_matching_bonus }}</p>
+                {% else %}
+                    <p>No tree structure data available for this result.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
 </body>
 </html>
