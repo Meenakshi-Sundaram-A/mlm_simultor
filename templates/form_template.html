@@ -22,8 +22,10 @@
 <body>
     <h1>Enter MLM Configuration</h1>
 
-    <label><input type="radio" name="plan_type" value="binary" onclick="showForm('binaryForm')"> Binary Level</label>
-    <label><input type="radio" name="plan_type" value="unilevel" onclick="showForm('unilevelForm')"> Unilevel</label>
+    <div>
+        <button type="button" onclick="showForm('binaryForm')">Binary Level</button>
+        <button type="button" onclick="showForm('unilevelForm')">Unilevel</button>
+    </div>
 
     <form method="POST">
         {% csrf_token %}
