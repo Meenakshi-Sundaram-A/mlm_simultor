@@ -91,14 +91,18 @@
                 {{ binary_form.num_of_users }}
             </div>
  
-            <div class="mb-3">
-                <label for="id_product_price" class="form-label">{{ binary_form.product_price.label }}</label>
-                {{ binary_form.product_price }}
-            </div>
- 
-            <div class="mb-3">
-                <label for="id_users_per_product" class="form-label">{{ binary_form.users_per_product.label }}</label>
-                {{ binary_form.users_per_product }}
+            <div class="card p-4 shadow-sm m-3 ">
+                <div class="d-flex justify-content-around">
+                    <div class="mb-3 ">
+                        <label for="id_product_price" class="form-label">{{ binary_form.product_price.label }}</label>
+                        {{ binary_form.product_price }}
+                    </div>
+         
+                    <div class="mb-3">
+                        <label for="id_users_per_product" class="form-label">{{ binary_form.users_per_product.label }}</label>
+                        {{ binary_form.users_per_product }}
+                    </div>
+                </div>
             </div>
  
             <div class="mb-3">
