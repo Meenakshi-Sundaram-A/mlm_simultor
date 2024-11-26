@@ -157,7 +157,6 @@ def user_input_view(request):
                     "ratio_amount": binary_form.cleaned_data["ratio_amount"],
                     "capping_scope": binary_form.cleaned_data['capping_scope'],
                     "capping_amount": binary_form.cleaned_data['capping_amount'],
-                    "carry_yes_no": binary_form.cleaned_data['carry_yes_no'],
                     "cycle": cycle,
                     "plan_type": "binary",
                 }
@@ -171,6 +170,7 @@ def user_input_view(request):
                     "sponsor_bonus_percentage": unilevel_form.cleaned_data['sponsor_bonus_percentage'],
                     "percentage_string": matching_bonus_percentages,
                     "max_child": unilevel_form.cleaned_data['max_child'],
+                    "capping_scope": unilevel_form.cleaned_data['capping_scope'],
                     "capping_amount": unilevel_form.cleaned_data['capping_amount'],
                     "cycle": cycle,
                     "plan_type": "unilevel",

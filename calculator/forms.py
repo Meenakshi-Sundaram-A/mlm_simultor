@@ -1,20 +1,36 @@
 from django import forms
 
+
 class FormData(forms.Form):
-    num_of_users = forms.IntegerField(label="Enter the numberof users",required=True)
+    num_of_users = forms.IntegerField(
+        label="Enter the number of users",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
     product_price = forms.CharField(
         label="Enter Product Price (eg: 50,25,10)",
         required=True,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
     users_per_product = forms.CharField(
         label="Enter No of User per Product (eg: 50,25,10)",
         required=True,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
-    sponsor_bonus_percentage = forms.IntegerField(label="Enter Sponsor Bonus Percentage",required=True)
-    binary_bonus_percentage = forms.IntegerField(label="Enter Binary Bonus Percentage",required=True)
-    matching_bonus_percentages = forms.CharField(
+    sponsor_bonus_percentage = forms.IntegerField(
+        label="Enter Sponsor Bonus Percentage",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+    binary_bonus_percentage = forms.IntegerField(
+        label="Enter Binary Bonus Percentage",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+    matching_bonus_percentage = forms.CharField(
         label="Enter Matching Bonus Percentages (eg: 50,25,10)",
         required=True,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
     CAPPING_SCOPE_CHOICE = [
         ('binary_bonus', 'Binary Bonus'),
@@ -26,32 +42,80 @@ class FormData(forms.Form):
         ('one_two','1:2'),
         ('two_one','2:1'),
     ]
-    ratio_choice = forms.ChoiceField(choices=RATIO_CHOICE,widget=forms.RadioSelect,label="Select Ratio Choice",required=True)
-    ratio_amount = forms.IntegerField(label="Enter the Ratio Amount")
-    capping_scope = forms.ChoiceField(choices=CAPPING_SCOPE_CHOICE,label="Select Capping Criteria",required=True)
-    capping_amount = forms.IntegerField(label="Enter the Capping Amount")
-    CARRY_CHOICE = [
-        ('yes','Yes'),
-        ('no','No'),
-    ]
-    carry_yes_no = forms.ChoiceField(choices=CARRY_CHOICE,widget=forms.RadioSelect,label="Carry Forward (Yes or No)",required=True)
+    ratio_choice = forms.ChoiceField(
+        choices=RATIO_CHOICE,
+        widget=forms.RadioSelect(attrs={'class':'form-check-input'}),
+        label="Select Ratio Choice",
+        required=True
+        )
+    ratio_amount = forms.IntegerField(
+        label="Enter the Ratio Amount",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+    capping_scope = forms.ChoiceField(
+        choices=CAPPING_SCOPE_CHOICE,
+        label="Select Capping Criteria",
+        required=True,
+        widget=forms.Select(attrs={'class':'form-select', 'style':'width:300px; font-size: 16px;'})
+        )
+    capping_amount = forms.IntegerField(
+        label="Enter the Capping Amount",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+    # CARRY_CHOICE = [
+    #     ('yes','Yes'),
+    #     ('no','No'),
+    # ]
+    # carry_yes_no = forms.ChoiceField(choices=CARRY_CHOICE,widget=forms.RadioSelect,label="Carry Forward (Yes or No)",required=True)
     
     
 class UniLevelFormData(forms.Form):
-    num_of_users = forms.IntegerField(label="Enter the number of Users",required=True)
-    max_child = forms.IntegerField(label="Enter max children per person", required=True)
+    num_of_users = forms.IntegerField(
+        label="Enter the number of Users",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+    max_child = forms.IntegerField(
+        label="Enter max children per person", 
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
     product_price = forms.CharField(
         label="Enter Product Price (eg: 50,25,10)",
         required=True,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
     users_per_product = forms.CharField(
         label="Enter No of User per Product (eg: 50,25,10)",
         required=True,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
-    sponsor_bonus_percentage = forms.IntegerField(label="Enter Sponsor Bonus Percentage")
-    matching_bonus_percentages = forms.CharField(
+    sponsor_bonus_percentage = forms.IntegerField(
+        label="Enter Sponsor Bonus Percentage",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+    matching_bonus_percentage = forms.CharField(
         label="Enter Matching Bonus Percentages (eg: 50,25,10)",
         required=True,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
-    capping_amount = forms.IntegerField(label="Enter the Capping Amount")
+    CAPPING_SCOPE_CHOICE = [
+        ('binary_bonus', 'Binary Bonus'),
+        ('sponsor_bonus', 'Sponsor Bonus'),
+        ('matching_bonus', 'Matching Bonus'),
+    ]
+    capping_scope = forms.ChoiceField(
+        choices=CAPPING_SCOPE_CHOICE,
+        label="Select Capping Criteria",
+        required=True,
+        widget=forms.Select(attrs={'class':'form-select', 'style':'width:300px; font-size: 16px;'})
+        )
+    capping_amount = forms.IntegerField(
+        label="Enter the Capping Amount",
+        required=True,
+        widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
     
