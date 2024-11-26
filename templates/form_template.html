@@ -82,7 +82,7 @@
         </form>
 
         <!-- Binary Form -->
-        <form method="POST" class="card p-4 shadow-sm mt-4" id="binaryForm" style="display: none;">
+        <form method="POST" class="card p-3 shadow-sm mt-3 w-75 mx-auto" id="binaryForm" style="display: none;">
             {% csrf_token %}
             <input type="hidden" name="plan_type" id="binaryPlanType">
 
@@ -104,53 +104,61 @@
                     </div>
                 </div>
             </div>
- 
-            <div class="mb-3">
-                <label for="id_sponsor_bonus_percentage" class="form-label">{{ binary_form.sponsor_bonus_percentage.label }}</label>
-                {{ binary_form.sponsor_bonus_percentage }}
-            </div>
 
-            <div class="mb-3">
-                <label for="id_binary_bonus_percentage" class="form-label">{{ binary_form.binary_bonus_percentage.label }}</label>
-                {{ binary_form.binary_bonus_percentage }}
+            <div class="card p-4 shadow-sm m-3">
+                <div class="d-flex justify-content-around">
+                    <div class="mb-3">
+                        <label for="id_sponsor_bonus_percentage" class="form-label">{{ binary_form.sponsor_bonus_percentage.label }}</label>
+                        {{ binary_form.sponsor_bonus_percentage }}
+                    </div>
+        
+                    <div class="mb-3">
+                        <label for="id_binary_bonus_percentage" class="form-label">{{ binary_form.binary_bonus_percentage.label }}</label>
+                        {{ binary_form.binary_bonus_percentage }}
+                    </div>
+         
+                    <div class="mb-3">
+                        <label for="id_matching_bonus_percentage" class="form-label">{{ binary_form.matching_bonus_percentage.label }}</label>
+                        {{ binary_form.matching_bonus_percentage }}
+                    </div>
+                </div>
             </div>
  
-            <div class="mb-3">
-                <label for="id_matching_bonus_percentage" class="form-label">{{ binary_form.matching_bonus_percentage.label }}</label>
-                {{ binary_form.matching_bonus_percentage }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">{{ binary_form.ratio_choice.label }}</label>
-                <div class="d-flex gap-3">
-                    {% for radio in binary_form.ratio_choice %}
-                        <div class="form-check form-check-inline">
-                            {{ radio.tag }}
-                            <label class="form-check-label">{{ radio.choice_label }}</label>
+            <div class="card p-4 shadow-sm m-3">
+                <div class="d-flex justify-content-around">
+                    <div class="mb-3">
+                        <label class="form-label">{{ binary_form.ratio_choice.label }}</label>
+                        <div class="d-flex gap-3">
+                            {% for radio in binary_form.ratio_choice %}
+                                <div class="form-check form-check-inline">
+                                    {{ radio.tag }}
+                                    <label class="form-check-label">{{ radio.choice_label }}</label>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_ratio_amount" class="form-label">{{ binary_form.ratio_amount.label }}</label>
+                        {{ binary_form.ratio_amount }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-4 shadow-sm m-3">
+                <div class="d-flex justify-content-around">
+                    <div class="mb-3">
+                        <label for="id_capping_scope" class="form-label">{{ binary_form.capping_scope.label }}</label>
+                        {{ binary_form.capping_scope }}
+                    </div>
+         
+                    <div class="mb-3">
+                        <label for="id_capping_amount" class="form-label">{{ binary_form.capping_amount.label }}</label>
+                        {{ binary_form.capping_amount }}
+                    </div>
                 </div>
             </div>
             
-
-            <div class="mb-3">
-                <label for="id_ratio_amount" class="form-label">{{ binary_form.ratio_amount.label }}</label>
-                {{ binary_form.ratio_amount }}
-            </div>
- 
-            <div class="mb-3">
-                <label for="id_capping_scope" class="form-label">{{ binary_form.capping_scope.label }}</label>
-                {{ binary_form.capping_scope }}
-            </div>
- 
-            <div class="mb-3">
-                <label for="id_capping_amount" class="form-label">{{ binary_form.capping_amount.label }}</label>
-                {{ binary_form.capping_amount }}
-            </div>
-
-            {% comment %} <div class="form-group">
-                {{ binary_form.as_p }}
-            </div> {% endcomment %}
+            
             <button type="submit" class="btn btn-success w-100 mt-3">Submit Binary Form</button>
         </form>
     </div>
