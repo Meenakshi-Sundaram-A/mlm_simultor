@@ -35,17 +35,17 @@
         </div>
 
         <!-- Unilevel Form -->
-        <form method="POST" class="card p-4 shadow-sm" id="unilevelForm" style="display: none;">
+        <form method="POST" class="card p-4 shadow-sm" id="unilevelForm" style="display: none;" action="{% url 'user_input_view' %}">
             {% csrf_token %}
             <input type="hidden" name="plan_type" id="unilevelPlanType">
 
             <div class="mb-3">
-                <label for="id_num_of_users" class="form-label">{{ unilevel_form.num_of_users.label }}</label>
+                <label for="num_of_users" class="form-label">{{ unilevel_form.num_of_users.label }}</label>
                 {{ unilevel_form.num_of_users }}
             </div>
  
             <div class="mb-3">
-                <label for="id_max_child" class="form-label">{{ unilevel_form.max_child.label }}</label>
+                <label for="max_child" class="form-label">{{ unilevel_form.max_child.label }}</label>
                 {{ unilevel_form.max_child }}
             </div>
  
@@ -65,8 +65,8 @@
             </div>
  
             <div class="mb-3">
-                <label for="id_matching_bonus_percentage" class="form-label">{{ unilevel_form.matching_bonus_percentage.label }}</label>
-                {{ unilevel_form.matching_bonus_percentage }}
+                <label for="id_matching_bonus_percentages" class="form-label">{{ unilevel_form.matching_bonus_percentages.label }}</label>
+                {{ unilevel_form.matching_bonus_percentages }}
             </div>
  
             <div class="mb-3">
@@ -82,7 +82,7 @@
         </form>
 
         <!-- Binary Form -->
-        <form method="POST" class="card p-3 shadow-sm mt-3 w-75 mx-auto" id="binaryForm" style="display: none;">
+        <form method="POST" style="width: 65%;" class="card p-3 shadow-sm mt-3 mx-auto" id="binaryForm" style="display: none;" action="{% url 'user_input_view' %}">
             {% csrf_token %}
             <input type="hidden" name="plan_type" id="binaryPlanType">
 
@@ -105,43 +105,47 @@
                 </div>
             </div>
 
-            <div class="card p-4 shadow-sm m-3">
-                <div class="d-flex justify-content-around">
-                    <div class="mb-3">
-                        <label for="id_sponsor_bonus_percentage" class="form-label">{{ binary_form.sponsor_bonus_percentage.label }}</label>
-                        {{ binary_form.sponsor_bonus_percentage }}
-                    </div>
-        
-                    <div class="mb-3">
-                        <label for="id_binary_bonus_percentage" class="form-label">{{ binary_form.binary_bonus_percentage.label }}</label>
-                        {{ binary_form.binary_bonus_percentage }}
-                    </div>
-         
-                    <div class="mb-3">
-                        <label for="id_matching_bonus_percentage" class="form-label">{{ binary_form.matching_bonus_percentage.label }}</label>
-                        {{ binary_form.matching_bonus_percentage }}
-                    </div>
-                </div>
+            {% comment %} <div class="card p-4 shadow-sm m-3">
+                
             </div>
- 
+  {% endcomment %}
             <div class="card p-4 shadow-sm m-3">
-                <div class="d-flex justify-content-around">
-                    <div class="mb-3">
-                        <label class="form-label">{{ binary_form.ratio_choice.label }}</label>
-                        <div class="d-flex gap-3">
-                            {% for radio in binary_form.ratio_choice %}
-                                <div class="form-check form-check-inline">
-                                    {{ radio.tag }}
-                                    <label class="form-check-label">{{ radio.choice_label }}</label>
-                                </div>
-                            {% endfor %}
+                <div>
+                    <div class="d-flex justify-content-around flex-wrap">
+                        <div class="mb-3">
+                            <label for="id_binary_bonus_percentage" class="form-label">{{ binary_form.binary_bonus_percentage.label }}</label>
+                            {{ binary_form.binary_bonus_percentage }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ binary_form.ratio_choice.label }}</label>
+                            <div class="d-flex flex-column gap-2">
+                                {% for radio in binary_form.ratio_choice %}
+                                    <div class="form-check form-check-inline">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label">{{ radio.choice_label }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_ratio_amount" class="form-label">{{ binary_form.ratio_amount.label }}</label>
+                            {{ binary_form.ratio_amount }}
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="id_ratio_amount" class="form-label">{{ binary_form.ratio_amount.label }}</label>
-                        {{ binary_form.ratio_amount }}
+                    <div>
+                        <div class="d-flex justify-content-around flex-wrap">
+                            <div class="mb-3">
+                                <label for="id_sponsor_bonus_percentage" class="form-label">{{ binary_form.sponsor_bonus_percentage.label }}</label>
+                                {{ binary_form.sponsor_bonus_percentage }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_matching_bonus_percentages" class="form-label">{{ binary_form.matching_bonus_percentages.label }}</label>
+                                {{ binary_form.matching_bonus_percentages }}
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
             </div>
 
             <div class="card p-4 shadow-sm m-3">
