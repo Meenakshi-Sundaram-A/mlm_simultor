@@ -10,12 +10,12 @@ class FormData(forms.Form):
     product_price = forms.CharField(
         label="Product Price",
         required=True,
-        widget=forms.TextInput(attrs={'class':'form-control'})
+        widget=forms.NumberInput(attrs={'class':'form-control'})
     )
     users_per_product = forms.CharField(
         label="No of Users per Product",
         required=True,
-        widget=forms.TextInput(attrs={'class':'form-control'})
+        widget=forms.NumberInput(attrs={'class':'form-control'})
     )
     sponsor_bonus_percentage = forms.IntegerField(
         label="Sponsor Bonus %",
