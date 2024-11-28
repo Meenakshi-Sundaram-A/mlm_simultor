@@ -7,8 +7,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 # Utility function for processing form input fields
-def process_form_data(form,user_count):
-    percentages_str = form.cleaned_data['matching_bonus_percentages']
+def process_form_data(num_of_users,user_count,percentages_str):
     matching_bonus_percentages = [int(x.strip()) for x in percentages_str.split(",")]
 
     # product_price_str = form.cleaned_data['product_price']
@@ -17,7 +16,7 @@ def process_form_data(form,user_count):
     # users_per_product_str = form.cleaned_data['users_per_product']
     # users_per_product = [int(x.strip()) for x in users_per_product_str.split(",")]
 
-    cycle = math.ceil(form.cleaned_data['num_of_users'] / user_count)
+    cycle = math.ceil(num_of_users / user_count)
 
     return matching_bonus_percentages, cycle
 
@@ -103,27 +102,42 @@ def process_form_data(form,user_count):
 def binarylevel_input_view(request):
     print(request.POST)
     binary_form = FormData(request.POST)
-    print(binary_form)
     if request.method == "POST":
         try:
-            product_price = binary_form.cleaned_data['product_price']
-            users_per_product = binary_form.cleaned_data['user_per_product']
-            print("Product Price:",product_price)
-            print("User per Product:",users_per_product)
+            num_of_users = request.POST.get('num_of_users')
+            users_per_product = request.POST.getlist('users_per_product')
+            users_per_product = list(map(int, users_per_product))
             users_per_cycle = sum(users_per_product)
-            matching_bonus_percentages, cycle = process_form_data(binary_form,users_per_cycle)
+            
+            product_price = request.POST.getlist('product_price')
+            product_price = list(map(int, product_price))
+            percentage_str = request.POST.get('matching_bonus_percentages')
+            print("PER:",percentage_str)
+            matching_bonus_percentages, cycle = process_form_data(int(num_of_users),users_per_cycle,percentage_str)
                 
+            print("num_of_users", request.POST.get('num_of_users'))
+            print("product_price", request.POST.getlist('product_price'))
+            print("users_per_product", request.POST.getlist('users_per_product'))
+            print("sponsor_bonus_percentage", request.POST.get('sponsor_bonus_percentage'))
+            print("binary_bonus_percentage", request.POST.get('binary_bonus_percentage'))
+            print("percentage_string", matching_bonus_percentages)
+            print("ratio_choice", request.POST.get("ratio_choice"))
+            print("ratio_amount", request.POST.get("ratio_amount"))
+            print("capping_scope", request.POST.get('capping_scope'))
+            print("capping_amount", request.POST.get('capping_amount'))
+            print("cycle", cycle)
+            
             data = {
-                    "num_of_users": binary_form.cleaned_data['num_of_users'],
+                    "num_of_users": int(request.POST.get('num_of_users')),
                     "product_price": product_price,
                     "users_per_product": users_per_product,
-                    "sponsor_bonus_percentage": binary_form.cleaned_data['sponsor_bonus_percentage'],
-                    "binary_bonus_percentage": binary_form.cleaned_data['binary_bonus_percentage'],
+                    "sponsor_bonus_percentage": float(request.POST.get('sponsor_bonus_percentage')),
+                    "binary_bonus_percentage": float(request.POST.get('binary_bonus_percentage')),
                     "percentage_string": matching_bonus_percentages,
-                    "ratio_choice": binary_form.cleaned_data["ratio_choice"],
-                    "ratio_amount": binary_form.cleaned_data["ratio_amount"],
-                    "capping_scope": binary_form.cleaned_data['capping_scope'],
-                    "capping_amount": binary_form.cleaned_data['capping_amount'],
+                    "ratio_choice": request.POST.get("ratio_choice"),
+                    "ratio_amount": float(request.POST.get("ratio_amount")),
+                    "capping_scope": request.POST.get('capping_scope'),
+                    "capping_amount": float(request.POST.get('capping_amount')),
                     "cycle": cycle,
                     "plan_type": "binary",
                 }
