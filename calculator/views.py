@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def binarylevel_input_view(request):
-    print(request.POST)
     binary_form = FormData(request.POST)
     if request.method == "POST":
         try:
@@ -43,6 +42,7 @@ def binarylevel_input_view(request):
             response = requests.post('http://localhost:8080/api/processData', json=data)
             response.raise_for_status()
             results = response.json()
+            print(results)
 
             return render(request, 'display_members.html', {'all_results': results})
 

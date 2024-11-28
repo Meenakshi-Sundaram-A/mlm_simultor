@@ -109,25 +109,30 @@
             </div>
         {% endfor %}
         
-        <!-- 3D Pie Chart for Total Bonuses -->
+        <!-- 3D Pie Chart for Node 1 Bonuses -->
         <div class="mt-5">
-            <h3>Total Bonuses Overview</h3>
+            <h3>Node 1 Bonuses Overview</h3>
             <div class="chart-container" id="chartdiv"></div>
         </div>
         <br>
     </div>
 
     <script>
-        // Prepare data by summing up bonuses for all cycles
+        // Prepare data for Node 1's bonuses
         const results = {{ all_results|safe }};
-        let totalSponsorBonus = 0;
-        let totalBinaryBonus = 0;
-        let totalMatchingBonus = 0;
+        let node1SponsorBonus = 0;
+        let node1BinaryBonus = 0;
+        let node1MatchingBonus = 0;
 
         results.forEach(result => {
-            totalSponsorBonus += result.total_sponsor_bonus || 0;
-            totalBinaryBonus += result.total_binary_bonus || 0;
-            totalMatchingBonus += result.total_matching_bonus || 0;
+            // Find Node 1 in tree_structure and sum its bonuses
+            result.tree_structure.forEach(node => {
+                if (node.ID === 1) {
+                    node1SponsorBonus += node.SponsorBonus || 0;
+                    node1BinaryBonus += node.BinaryBonus || 0;
+                    node1MatchingBonus += node.MatchingBonus || 0;
+                }
+            });
         });
 
         // Create the chart
@@ -139,16 +144,16 @@
             // Create the pie chart instance
             var chart = am4core.create("chartdiv", am4charts.PieChart3D);
 
-            // Set chart data
+            // Set chart data for Node 1
             chart.data = [{
                 "category": "Sponsor Bonus",
-                "value": totalSponsorBonus
+                "value": node1SponsorBonus
             }, {
                 "category": "Binary Bonus",
-                "value": totalBinaryBonus
+                "value": node1BinaryBonus
             }, {
                 "category": "Matching Bonus",
-                "value": totalMatchingBonus
+                "value": node1MatchingBonus
             }];
 
             // Create a 3D pie series
@@ -160,7 +165,8 @@
             pieSeries.slices.template.draggable = true;
 
             // Add tooltips
-            pieSeries.tooltipText = "{category}: {value}";
+            // pieSeries.tooltipText = "{category}: {value}";
+            pieSeries.tooltipText = "{category}: {value} ({value.percent.formatNumber('#.0')}%)\nTotal: [bold]" + totalValue + "[/bold]";
 
             // Enable chart legend
             chart.legend = new am4charts.Legend();
@@ -172,4 +178,5 @@
     </script>
 </body>
 </html>
+
 
