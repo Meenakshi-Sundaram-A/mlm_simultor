@@ -5,17 +5,28 @@ class FormData(forms.Form):
     num_of_users = forms.IntegerField(
         label="Number of users",
         required=True,
-        widget=forms.NumberInput(attrs={'class':'form-control'})
+        widget=forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Number of users'})
+        )
+    CURRENCY_CHOICE = [
+        ('usd', 'USD'),
+        ('inr', 'INR'),
+        ('eur', 'EUR'),
+    ]
+    currency = forms.ChoiceField(
+        choices=CURRENCY_CHOICE,
+        label="Select Currency",
+        required=True,
+        widget=forms.Select(attrs={'class':'form-select', 'style':'width:250px; font-size: 16px;'})
         )
     product_price = forms.CharField(
-        label="Product Price",
+        label="Product Price / BV",
         required=True,
-        widget=forms.NumberInput(attrs={'class':'form-control'})
+        widget=forms.NumberInput(attrs={'class':'form-control','placeholder': 'Price / BV'})
     )
     users_per_product = forms.CharField(
-        label="No of Users per Product",
+        label="Quantity",
         required=True,
-        widget=forms.NumberInput(attrs={'class':'form-control'})
+        widget=forms.NumberInput(attrs={'class':'form-control','placeholder': 'Quantity'})
     )
     sponsor_bonus_percentage = forms.IntegerField(
         label="Sponsor Bonus %",
@@ -57,7 +68,7 @@ class FormData(forms.Form):
         choices=CAPPING_SCOPE_CHOICE,
         label="Capping Criteria",
         required=True,
-        widget=forms.Select(attrs={'class':'form-select', 'style':'width:300px; font-size: 16px;'})
+        widget=forms.Select(attrs={'class':'form-select', 'style':'width:250px; font-size: 16px;'})
         )
     capping_amount = forms.IntegerField(
         label="Capping Amount",
@@ -73,17 +84,28 @@ class FormData(forms.Form):
     
 class UniLevelFormData(forms.Form):
     num_of_users = forms.IntegerField(
-        label="Enter the number of Users",
+        label="Number of Users",
         required=True,
         widget=forms.NumberInput(attrs={'class':'form-control'})
         )
     max_child = forms.IntegerField(
-        label="Enter max children per person", 
+        label="Max children", 
         required=True,
         widget=forms.NumberInput(attrs={'class':'form-control'})
         )
+    CURRENCY_CHOICE = [
+        ('usd', 'USD'),
+        ('inr', 'INR'),
+        ('eur', 'EUR'),
+    ]
+    currency = forms.ChoiceField(
+        choices=CURRENCY_CHOICE,
+        label="Select Currency",
+        required=True,
+        widget=forms.Select(attrs={'class':'form-select', 'style':'width:200px; font-size: 16px;'})
+        )
     product_price = forms.CharField(
-        label="Product Price",
+        label="Product Price / BV",
         required=True,
         widget=forms.TextInput(attrs={'class':'form-control'})
     )
@@ -93,28 +115,27 @@ class UniLevelFormData(forms.Form):
         widget=forms.TextInput(attrs={'class':'form-control'})
     )
     sponsor_bonus_percentage = forms.IntegerField(
-        label="Enter Sponsor Bonus Percentage",
+        label="Sponsor Bonus %",
         required=True,
         widget=forms.NumberInput(attrs={'class':'form-control'})
         )
     matching_bonus_percentages = forms.CharField(
-        label="Enter Matching Bonus Percentages (eg: 50,25,10)",
+        label="Matching Bonus %",
         required=True,
         widget=forms.TextInput(attrs={'class':'form-control'})
     )
     CAPPING_SCOPE_CHOICE = [
-        ('binary_bonus', 'Binary Bonus'),
         ('sponsor_bonus', 'Sponsor Bonus'),
         ('matching_bonus', 'Matching Bonus'),
     ]
     capping_scope = forms.ChoiceField(
         choices=CAPPING_SCOPE_CHOICE,
-        label="Select Capping Criteria",
+        label="Capping Criteria",
         required=True,
-        widget=forms.Select(attrs={'class':'form-select', 'style':'width:300px; font-size: 16px;'})
+        widget=forms.Select(attrs={'class':'form-select', 'style':'width:250px; font-size: 16px;'})
         )
     capping_amount = forms.IntegerField(
-        label="Enter the Capping Amount",
+        label="Capping Amount",
         required=True,
         widget=forms.NumberInput(attrs={'class':'form-control'})
         )

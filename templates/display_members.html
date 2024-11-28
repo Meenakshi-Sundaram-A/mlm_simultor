@@ -1,54 +1,4 @@
-{% comment %} <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results Display</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> 
-</head>
-<body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Simulation Result</h2>
-        {% for result in all_results %}
-            <div class="mb-4">
-                <h3>Cycle {{ forloop.counter }}</h3>
-
-                <h4>Tree Structure</h4>
-                {% if result.tree_structure %}
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                {% for field in result.tree_structure.0.keys %}
-                                    <th>{{ field }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for node in result.tree_structure %}
-                                <tr>
-                                    {% for value in node.values %}
-                                        <td>{{ value }}</td>
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-
-                <p><strong>Sponsor Bonus:</strong> {{ result.total_sponsor_bonus }}</p>
-                {% if result.total_binary_bonus %}
-                    <p><strong>Binary Bonus:</strong> {{ result.total_binary_bonus }}</p>
-                {% endif %}
-                <p><strong>Matching Bonus:</strong> {{ result.total_matching_bonus }}</p>
-                {% else %}
-                    <p>No tree structure data available for this result.</p>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-</body>
-</html> {% endcomment %}
-
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -60,7 +10,6 @@
     <div class="container mt-5">
         <h2 class="mb-4">Simulation Result</h2>
         
-        <!-- Loop Through Results -->
         {% for result in all_results %}
             <div class="mb-4">
                 <h3>Cycle {{ forloop.counter }}</h3>
@@ -97,4 +46,130 @@
         {% endfor %}
     </div>
 </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Display</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AmCharts 4 CDN -->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    
+    <style>
+        /* Custom 3D Effect */
+        .chart-container {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Simulation Result</h2>
+        
+        {% for result in all_results %}
+            <div class="mb-4">
+                <h3>Cycle {{ forloop.counter }}</h3>
+
+                <h4>Tree Structure</h4>
+                {% if result.tree_structure %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                {% for field in result.tree_structure.0.keys %}
+                                    <th>{{ field }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for node in result.tree_structure %}
+                                <tr>
+                                    {% for value in node.values %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p><strong>Sponsor Bonus:</strong> {{ result.total_sponsor_bonus }}</p>
+                    {% if result.total_binary_bonus %}
+                        <p><strong>Binary Bonus:</strong> {{ result.total_binary_bonus }}</p>
+                    {% endif %}
+                    <p><strong>Matching Bonus:</strong> {{ result.total_matching_bonus }}</p>
+                {% else %}
+                    <p>No tree structure data available for this result.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <!-- 3D Pie Chart for Total Bonuses -->
+        <div class="mt-5">
+            <h3>Total Bonuses Overview</h3>
+            <div class="chart-container" id="chartdiv"></div>
+        </div>
+        <br>
+    </div>
+
+    <script>
+        // Prepare data by summing up bonuses for all cycles
+        const results = {{ all_results|safe }};
+        let totalSponsorBonus = 0;
+        let totalBinaryBonus = 0;
+        let totalMatchingBonus = 0;
+
+        results.forEach(result => {
+            totalSponsorBonus += result.total_sponsor_bonus || 0;
+            totalBinaryBonus += result.total_binary_bonus || 0;
+            totalMatchingBonus += result.total_matching_bonus || 0;
+        });
+
+        // Create the chart
+        am4core.ready(function() {
+
+            // Use themes
+            am4core.useTheme(am4themes_animated);
+
+            // Create the pie chart instance
+            var chart = am4core.create("chartdiv", am4charts.PieChart3D);
+
+            // Set chart data
+            chart.data = [{
+                "category": "Sponsor Bonus",
+                "value": totalSponsorBonus
+            }, {
+                "category": "Binary Bonus",
+                "value": totalBinaryBonus
+            }, {
+                "category": "Matching Bonus",
+                "value": totalMatchingBonus
+            }];
+
+            // Create a 3D pie series
+            var pieSeries = chart.series.push(new am4charts.PieSeries3D());
+            pieSeries.dataFields.value = "value";
+            pieSeries.dataFields.category = "category";
+            pieSeries.slices.template.cornerRadius = 5;
+            pieSeries.slices.template.innerRadius = am4core.percent(30); // inner radius for doughnut look
+            pieSeries.slices.template.draggable = true;
+
+            // Add tooltips
+            pieSeries.tooltipText = "{category}: {value}";
+
+            // Enable chart legend
+            chart.legend = new am4charts.Legend();
+
+            // Add animation
+            chart.hiddenState.properties.opacity = 0; // Initial opacity for animation
+            chart.appear(1000, 100);
+        });
+    </script>
+</body>
 </html>
+
