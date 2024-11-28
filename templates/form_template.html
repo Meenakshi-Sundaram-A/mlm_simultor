@@ -270,6 +270,88 @@
                 productCount--;
             }
         }   
+
+        function addLevel() {
+            const productContainer = document.getElementById("level-container");
+
+            const newProductGroup = document.createElement("div");
+            newProductGroup.classList.add('product-group');
+            newProductGroup.innerHTML = `
+                        <div class="my-2">
+                            <label for="product_price" class="form-label">Level Percentage</label>
+                            {{ binary_form.matching_bonus_percentages }}
+                        </div>
+            `;
+            
+            productContainer.appendChild(newProductGroup);
+            productCount++;
+        }
+        // Function to handle deleting the last added product in Binary form
+        function deleteLevel() {
+            const productContainer = document.getElementById("level-container");
+            if (productContainer.children.length > 0) {
+                productContainer.removeChild(productContainer.lastChild);
+                productCount--;
+            }
+        }  
+
+        function addUniLevel() {
+            const productContainer = document.getElementById("level-container");
+
+            const newProductGroup = document.createElement("div");
+            newProductGroup.classList.add('product-group');
+            newProductGroup.innerHTML = `
+                        <div class="my-2">
+                            <label for="product_price" class="form-label">Level Percentage</label>
+                            {{ unilevel_form.matching_bonus_percentages }}
+                        </div>
+            `;
+            
+            productContainer.appendChild(newProductGroup);
+            productCount++;
+        }
+        // Function to handle deleting the last added product in Binary form
+        function deleteUniLevel() {
+            const productContainer = document.getElementById("level-container");
+            if (productContainer.children.length > 0) {
+                productContainer.removeChild(productContainer.lastChild);
+                productCount--;
+            }
+        }  
+
+        function addUniProduct() {
+            const productContainer = document.getElementById("product-container");
+
+            const newProductGroup = document.createElement("div");
+            newProductGroup.classList.add('product-group');
+            newProductGroup.innerHTML = `
+                <div class="card p-4 shadow-sm m-3">
+                    <div class="d-flex justify-content-around">
+                        <div class="mb-3">
+                            <label for="product_price_${productCount}" class="form-label">Product Price</label>
+                            {{ unilevel_form.product_price }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="users_per_product_${productCount}" class="form-label">Quantity</label>
+                            {{ unilevel_form.users_per_product }}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            productContainer.appendChild(newProductGroup);
+            productCount++;
+        }
+
+        // Function to handle deleting the last added product in Binary form
+        function deleteUniProduct() {
+            const productContainer = document.getElementById("product-container");
+            if (productContainer.children.length > 0) {
+                productContainer.removeChild(productContainer.lastChild);
+                productCount--;
+            }
+        }   
     </script>
     <style>
         .form-group {
@@ -286,33 +368,70 @@
             <button type="button" class="btn btn-primary me-2" onclick="showForm('binaryForm')">Binary Level</button>
             <button type="button" class="btn btn-secondary" onclick="showForm('unilevelForm')">Unilevel</button>
         </div> {% endcomment %}
-        <div class="d-flex justify-content-start">
+        {% comment %} <div class="d-flex justify-content-start">
             <div class="plan-button mr-2 {% if binary %}active{% endif %}">
                 <a href="{% url 'binarylevel_input' %}" class="btn-link">Binary plan</a>
             </div>
             <div class="plan-button mr-2 {% if unilevel %}active{% endif %}">
                 <a href="{% url 'unilevel_input' %}" class="btn-link">Unilevel plan</a>
             </div>
+        </div> {% endcomment %}
+
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <!-- Binary Plan Button -->
+            <form action="{% url 'binarylevel_input' %}" method="get" class="mr-2">
+                <button type="submit" class="btn btn-primary {% if binary %}active{% endif %}">Binary Plan</button>
+            </form>
+        
+            <!-- Unilevel Plan Button -->
+            <form action="{% url 'unilevel_input' %}" method="get" class="mr-2">
+                <button type="submit" class="btn btn-secondary {% if unilevel %}active{% endif %}">Unilevel Plan</button>
+            </form>
         </div>
 
         <!-- Unilevel Form (Initially hidden) -->
         {% if unilevel %}
-        <form method="POST" class="card p-4 shadow-sm" id="unilevelForm" action="{% url 'unilevel_input' %}">
+        <form method="POST" style="width: 65%;" class="card p-3 shadow-sm mt-3 mx-auto" id="unilevelForm" action="{% url 'unilevel_input' %}">
             {% csrf_token %}
             {% comment %} <input type="hidden" name="plan_type" id="unilevelPlanType"> {% endcomment %}
             <input type="hidden" id="unilevelData" name="data_field" value="unilevel">
 
-            <div class="mb-3">
-                <label for="num_of_users" class="form-label">{{ unilevel_form.num_of_users.label }}</label>
-                {{ unilevel_form.num_of_users }}
+            <div class="card p-4 shadow-sm m-3">
+                <div class="d-flex justify-content-around">
+                    <div class="mb-3">
+                        <label for="num_of_users" class="form-label">{{ unilevel_form.num_of_users.label }}</label>
+                        {{ unilevel_form.num_of_users }}
+                    </div>
+         
+                    <div class="mb-3">
+                        <label for="max_child" class="form-label">{{ unilevel_form.max_child.label }}</label>
+                        {{ unilevel_form.max_child }}
+                    </div>
+                </div>
             </div>
- 
-            <div class="mb-3">
-                <label for="max_child" class="form-label">{{ unilevel_form.max_child.label }}</label>
-                {{ unilevel_form.max_child }}
+
+            <div class="card p-4 shadow-sm m-2">
+                <div class="card p-4 shadow-sm m-3 ">
+                    <div class="d-flex justify-content-around">
+                        <div class="mb-3 ">
+                            <label for="id_product_price" class="form-label">{{ unilevel_form.product_price.label }}</label>
+                            {{ unilevel_form.product_price }}
+                        </div>
+             
+                        <div class="mb-3">
+                            <label for="id_users_per_product" class="form-label">{{ unilevel_form.users_per_product.label }}</label>
+                            {{ unilevel_form.users_per_product }}
+                        </div>
+                    </div>
+                </div>
+                <div id="product-container" class="w-100"></div>
+                <div class="d-flex justify-content-center gap-5">
+                    <button type="button" id="add-product-button" class="btn btn-success mt-3" onclick="addUniProduct()">Add Product</button>
+                    <button type="button" id="delete-product-button" class="btn btn-danger mt-3" onclick="deleteUniProduct()">Delete Product</button>
+                </div>
             </div>
- 
-            <div class="mb-3">
+
+            {% comment %} <div class="mb-3">
                 <label for="id_product_price" class="form-label">{{ unilevel_form.product_price.label }}</label>
                 {{ unilevel_form.product_price }}
             </div>
@@ -320,27 +439,52 @@
             <div class="mb-3">
                 <label for="id_users_per_product" class="form-label">{{ unilevel_form.users_per_product.label }}</label>
                 {{ unilevel_form.users_per_product }}
+            </div> {% endcomment %}
+
+            <div class="card p-4 shadow-sm m-3">
+                <div class="d-flex justify-content-around flex-wrap">
+                    <div class="mb-3">
+                        <label for="id_sponsor_bonus_percentage" class="form-label">{{ unilevel_form.sponsor_bonus_percentage.label }}</label>
+                        {{ unilevel_form.sponsor_bonus_percentage }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_matching_bonus_percentages" class="form-label">{{ unilevel_form.matching_bonus_percentages.label }}</label>
+                        {{ unilevel_form.matching_bonus_percentages }}
+                        <div id="level-container" class="w-100"></div>
+                        <div class="d-flex justify-content-center gap-5">
+                            <button type="button" id="add-product-button" class="btn btn-success mt-3" onclick="addUniLevel()">Add Level</button>
+                            <button type="button" id="delete-product-button" class="btn btn-danger mt-3" onclick="deleteUniLevel()">Delete Level</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            
  
-            <div class="mb-3">
-                <label for="id_sponsor_bonus_percentage" class="form-label">{{ unilevel_form.sponsor_bonus_percentage.label }}</label>
-                {{ unilevel_form.sponsor_bonus_percentage }}
-            </div>
+            
  
-            <div class="mb-3">
+            {% comment %} <div class="mb-3">
                 <label for="id_matching_bonus_percentages" class="form-label">{{ unilevel_form.matching_bonus_percentages.label }}</label>
                 {{ unilevel_form.matching_bonus_percentages }}
+            </div> {% endcomment %}
+
+            <div class="card p-4 shadow-sm m-3">
+                <div class="d-flex justify-content-around">
+                    <div class="mb-3">
+                        <label for="id_capping_scope" class="form-label">{{ unilevel_form.capping_scope.label }}</label>
+                        {{ unilevel_form.capping_scope }}
+                    </div>
+         
+                    <div class="mb-3">
+                        <label for="id_capping_amount" class="form-label">{{ unilevel_form.capping_amount.label }}</label>
+                        {{ unilevel_form.capping_amount }}
+                    </div>
+                </div>
             </div>
  
-            <div class="mb-3">
-                <label for="id_capping_scope" class="form-label">{{ unilevel_form.capping_scope.label }}</label>
-                {{ unilevel_form.capping_scope }}
-            </div>
+            
  
-            <div class="mb-3">
-                <label for="id_capping_amount" class="form-label">{{ unilevel_form.capping_amount.label }}</label>
-                {{ unilevel_form.capping_amount }}
-            </div>
+            
             <button type="submit" class="btn btn-success w-100 mt-3">Submit Unilevel Form</button>
         </form>
         {% endif %}
@@ -407,6 +551,11 @@
                     <div class="mb-3">
                         <label for="id_matching_bonus_percentages" class="form-label">{{ binary_form.matching_bonus_percentages.label }}</label>
                         {{ binary_form.matching_bonus_percentages }}
+                        <div id="level-container" class="w-100"></div>
+                        <div class="d-flex justify-content-center gap-5">
+                            <button type="button" id="add-product-button" class="btn btn-success mt-3" onclick="addLevel()">Add Level</button>
+                            <button type="button" id="delete-product-button" class="btn btn-danger mt-3" onclick="deleteLevel()">Delete Level</button>
+                        </div>
                     </div>
                 </div>
             </div>

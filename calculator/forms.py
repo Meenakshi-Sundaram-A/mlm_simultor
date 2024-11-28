@@ -83,12 +83,12 @@ class UniLevelFormData(forms.Form):
         widget=forms.NumberInput(attrs={'class':'form-control'})
         )
     product_price = forms.CharField(
-        label="Enter Product Price (eg: 50,25,10)",
+        label="Product Price",
         required=True,
         widget=forms.TextInput(attrs={'class':'form-control'})
     )
     users_per_product = forms.CharField(
-        label="Enter No of User per Product (eg: 50,25,10)",
+        label="Quantity",
         required=True,
         widget=forms.TextInput(attrs={'class':'form-control'})
     )
