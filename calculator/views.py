@@ -33,7 +33,7 @@ def binarylevel_input_view(request):
                     "percentage_string": percentage_str,
                     "ratio_choice": request.POST.get("ratio_choice"),
                     "ratio_amount": float(request.POST.get("ratio_amount")),
-                    "capping_scope": request.POST.get('capping_scope'),
+                    "capping_scope": request.POST.getlist('capping_scope'),
                     "capping_amount": float(request.POST.get('capping_amount')),
                     "cycle": cycle,
                     "plan_type": "binary",
@@ -44,7 +44,7 @@ def binarylevel_input_view(request):
             results = response.json()
             print(results)
 
-            return render(request, 'display_members.html', {'all_results': results})
+            return render(request, 'display_members.html', {'all_results': results,'cycle':cycle})
 
         except ValueError as e:
             error_message = f"Input error: {str(e)}"
@@ -74,6 +74,8 @@ def unilevel_input_view(request):
             product_price = list(map(int, product_price))
             percentage_str = request.POST.getlist('matching_bonus_percentages')
             percentage_str = list(map(int, percentage_str))
+            capping_scope = request.POST.getlist('capping_scope')
+            print(capping_scope)
             
             cycle = math.ceil(float(num_of_users) / float(users_per_cycle))
                 

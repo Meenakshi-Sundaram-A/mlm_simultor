@@ -355,7 +355,14 @@
                 <div class="d-flex justify-content-around">
                     <div class="mb-3">
                         <label for="id_capping_scope" class="form-label">{{ binary_form.capping_scope.label }}</label>
-                        {{ binary_form.capping_scope }}
+                        <div>
+                            {% for checkbox in binary_form.capping_scope %}
+                                <div class="form-check">
+                                    {{ checkbox.tag }} <label class="form-check-label">{{ checkbox.choice_label }}</label>
+                                    
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
          
                     <div class="mb-3">

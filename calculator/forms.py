@@ -64,11 +64,11 @@ class FormData(forms.Form):
         required=True,
         widget=forms.NumberInput(attrs={'class':'form-control'})
         )
-    capping_scope = forms.ChoiceField(
+    capping_scope = forms.MultipleChoiceField(
         choices=CAPPING_SCOPE_CHOICE,
         label="Capping Criteria",
         required=True,
-        widget=forms.Select(attrs={'class':'form-select', 'style':'width:250px; font-size: 16px;'})
+        widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input', 'style': 'font-size: 16px;'})
         )
     capping_amount = forms.IntegerField(
         label="Capping Amount",
