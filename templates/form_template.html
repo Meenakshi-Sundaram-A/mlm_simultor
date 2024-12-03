@@ -43,8 +43,26 @@
             box-shadow: 0px 0px 10px 3px rgba(108, 99, 255, 0.5);
         }
 
+        .weakleg,.ratiopair,.poolbonus {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .weakleg.btn-info:hover,.ratiopair.btn-info:hover{
+            background-color: whitesmoke;
+            color: #17a2b8;
+        }
+        .poolbonus.btn:hover{
+            background-color: whitesmoke;
+            color: #b163ff;
+            border:1px solid #b163ff;
+        }
+        .poolbonus{
+            background-color:#b163ff;
+            
+        }
+
         .add-button,.delete-button {
             transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+            color:black;
         }
         
         .add-button.btn-success:hover {
@@ -170,7 +188,7 @@
                 productContainer.removeChild(productContainer.lastChild);
                 productCount--;
             }
-        }   
+        }
     </script>
     <style>
         .form-group {
@@ -195,6 +213,7 @@
         <form method="POST" style="width: 65%; background-color:whitesmoke" class="card p-3 shadow-sm mt-3 mx-auto" id="unilevelForm" action="{% url 'unilevel_input' %}">
             {% csrf_token %}
             <input type="hidden" id="unilevelData" name="data_field" value="unilevel">
+            <h1 class="text-center">UniLevel Plan</h1>
 
             <div class="card p-4 shadow m-4 border-0">
                 <div class="d-flex justify-content-around">
@@ -235,41 +254,67 @@
                 </div>
             </div>
 
-            <div class="card p-4 shadow m-4 border-0 m-4">
-                <div class="d-flex justify-content-around flex-wrap">
-                    <div class="mb-3">
-                        <label for="id_sponsor_bonus_percentage" class="form-label">{{ unilevel_form.sponsor_bonus_percentage.label }}</label>
-                        {{ unilevel_form.sponsor_bonus_percentage }}
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_matching_bonus_percentages" class="form-label">{{ unilevel_form.matching_bonus_percentages.label }}</label>
-                        {{ unilevel_form.matching_bonus_percentages }}
-                        <div id="level-container" class="w-100"></div>
-                        <div class="d-flex justify-content-center gap-5">
-                            <button type="button" id="add-product-button" class="btn btn-success mt-3 shadow add-button" onclick="addUniLevel()">Add Level</button>
-                            <button type="button" id="delete-product-button" class="btn btn-danger mt-3 shadow delete-button" onclick="deleteUniLevel()">Delete Level</button>
+            <div class="card p-4 shadow m-4 border-0">
+                <div class="card p-4 shadow m-4 border-0 m-4" style="background-color:whitesmoke">
+                    <div class="d-flex justify-content-around flex-wrap">
+                        <div class="mb-3">
+                            <label for="id_sponsor_bonus_percentage" class="form-label">{{ unilevel_form.sponsor_bonus_percentage.label }}</label>
+                            {{ unilevel_form.sponsor_bonus_percentage }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_matching_bonus_percentages" class="form-label">{{ unilevel_form.matching_bonus_percentages.label }}</label>
+                            {{ unilevel_form.matching_bonus_percentages }}
+                            <div id="level-container" class="w-100"></div>
+                            <div class="d-flex justify-content-center gap-5">
+                                <button type="button" id="add-product-button" class="btn btn-success mt-3 shadow add-button" onclick="addUniLevel()">Add Level</button>
+                                <button type="button" id="delete-product-button" class="btn btn-danger mt-3 shadow delete-button" onclick="deleteUniLevel()">Delete Level</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="card p-4 shadow m-4 border-0 m-4">
-                <div class="d-flex justify-content-around">
-                    <div class="mb-3">
-                        <label for="id_capping_scope" class="form-label">{{ unilevel_form.capping_scope.label }}</label>
-                        {{ unilevel_form.capping_scope }}
-                    </div>
-         
-                    <div class="mb-3">
-                        <label for="id_capping_amount" class="form-label">{{ unilevel_form.capping_amount.label }}</label>
-                        {{ unilevel_form.capping_amount }}
+                <div class="d-flex justify-content-center gap-5 mb-2">
+                    <button type="button" id="addpoolbonusbutton" class="btn mt-4 shadow poolbonus">Add Pool Bonus</button>
+                </div>
+                <div class="card p-4 border-0 m-4 shadow" style="background-color: rgb(243, 243, 243); display:none" id="poolbonusblock">
+                    <div class="d-flex justify-content-around m-0">
+                        <div class="mb-3 ">
+                            <label for="id_pool_bonus_percentage" class="form-label">{{ unilevel_form.pool_bonus_percentage.label }}</label>
+                            {{ unilevel_form.pool_bonus_percentage }}
+                        </div>
+             
+                        <div class="mb-3">
+                            <label for="id_pool_bonus_count" class="form-label">{{ unilevel_form.pool_bonus_count.label }}</label>
+                            {{ unilevel_form.pool_bonus_count }}
+                        </div>
                     </div>
                 </div>
+    
+                <div class="card p-4 shadow m-4 border-0 m-4" style="background-color:whitesmoke">
+                    <div class="d-flex justify-content-around">
+                        <div class="mb-3">
+                            <label for="id_capping_scope" class="form-label">{{ unilevel_form.capping_scope.label }}</label>
+                            <div>
+                                {% for checkbox in unilevel_form.capping_scope %}
+                                    <div class="form-check">
+                                        {{ checkbox.tag }} <label class="form-check-label">{{ checkbox.choice_label }}</label>
+                                        
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+             
+                        <div class="mb-3">
+                            <label for="id_capping_amount" class="form-label">{{ unilevel_form.capping_amount.label }}</label>
+                            {{ unilevel_form.capping_amount }}
+                        </div>
+                    </div>
+                </div>
+     
+                <div class="text-center my-2">
+                    <button type="submit" class="btn btn-success w-25 mt-3 shadow add-button">Calculate</button>
+                </div>
             </div>
- 
-            <div class="text-center my-2">
-                <button type="submit" class="btn btn-success w-25 mt-3 shadow add-button">Calculate</button>
-            </div>
+            
         </form>
         {% endif %}
 
@@ -278,6 +323,7 @@
             {% csrf_token %}
             {% comment %} <input type="hidden" name="plan_type" id="binaryPlanType"> {% endcomment %}
             <input type="hidden" id="binaryData" name="data_field" value="binary">
+            <h1 class="text-center">Binary Plan</h1>
 
             <div class="card p-4 shadow m-4 border-0">
                 <div class="d-flex justify-content-around">
@@ -313,45 +359,71 @@
                 </div>
             </div>
 
-            <div class="card p-4 shadow m-4 border-0 m-4">
-                <div class="d-flex justify-content-around flex-wrap">
-                    <div class="mb-3">
-                        <label for="id_binary_bonus_percentage" class="form-label">{{ binary_form.binary_bonus_percentage.label }}</label>
-                        {{ binary_form.binary_bonus_percentage }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">{{ binary_form.ratio_choice.label }}</label>
-                        <div class="d-flex flex-column gap-2">
-                            {% for radio in binary_form.ratio_choice %}
-                                <div class="form-check form-check-inline">
-                                    {{ radio.tag }}
-                                    <label class="form-check-label">{{ radio.choice_label }}</label>
+            <div class="card p-4 shadow m-4 border-0">
+                <div class="d-flex justify-content-center gap-5 mb-2">
+                    <button type="button" id="weaklegbutton" class="btn btn-info mt-4 shadow weakleg">Weak Leg</button>
+                    <button type="button" id="pairratiobutton" class="btn btn-info mt-4 shadow ratiopair">Pair Ratio</button>
+                </div>
+                <div class="">
+                    <div class="card p-4 shadow m-4 border-0" style="background-color:whitesmoke">
+                        <div class="mb-3" id="binaryPercentage" style="display:none;">
+                            <label for="id_binary_bonus_percentage" class="form-label">{{ binary_form.binary_bonus_percentage.label }}</label>
+                            {{ binary_form.binary_bonus_percentage }}
+                        </div>
+                        
+                            <div id="binaryRatioPair" style="display:none; width:100%; display:flex; justify-content:space-around" >
+                                <div class="mb-3" >
+                                    <label class="form-label">{{ binary_form.ratio_choice.label }}</label>
+                                    <div class="d-flex flex-column gap-2">
+                                        {% for radio in binary_form.ratio_choice %}
+                                            <div class="form-check form-check-inline">
+                                                {{ radio.tag }}
+                                                <label class="form-check-label">{{ radio.choice_label }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_ratio_amount" class="form-label">{{ binary_form.ratio_amount.label }}</label>
-                        {{ binary_form.ratio_amount }}
-                    </div>
-                </div>
-                <div class="d-flex justify-content-around flex-wrap">
-                    <div class="mb-3">
-                        <label for="id_sponsor_bonus_percentage" class="form-label">{{ binary_form.sponsor_bonus_percentage.label }}</label>
-                        {{ binary_form.sponsor_bonus_percentage }}
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_matching_bonus_percentages" class="form-label">{{ binary_form.matching_bonus_percentages.label }}</label>
-                        {{ binary_form.matching_bonus_percentages }}
-                        <div id="level-container" class="w-100"></div>
-                        <div class="d-flex justify-content-center gap-5">
-                            <button type="button" id="add-product-button" class="btn btn-success mt-3 add-button" onclick="addLevel()">Add Level</button>
-                            <button type="button" id="delete-product-button" class="btn btn-danger mt-3 delete-button" onclick="deleteLevel()">Delete Level</button>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="id_ratio_amount" class="form-label">{{ binary_form.ratio_amount.label }}</label>
+                                    {{ binary_form.ratio_amount }}
+                                </div>
+                            </div>
                     </div>
                 </div>
-            </div>
-            <div class="card p-4 shadow m-4 border-0 m-4">
+                <div class="card shadow border-0 m-4" style="background-color:whitesmoke">
+                    <div class="d-flex justify-content-around flex-wrap mt-4 mb-2">
+                        <div class="mb-3">
+                            <label for="id_sponsor_bonus_percentage" class="form-label">{{ binary_form.sponsor_bonus_percentage.label }}</label>
+                            {{ binary_form.sponsor_bonus_percentage }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_matching_bonus_percentages" class="form-label">{{ binary_form.matching_bonus_percentages.label }}</label>
+                            {{ binary_form.matching_bonus_percentages }}
+                            <div id="level-container" class="w-100"></div>
+                            <div class="d-flex justify-content-center gap-5">
+                                <button type="button" id="add-product-button" class="btn btn-success mt-3 add-button" onclick="addLevel()">Add Level</button>
+                                <button type="button" id="delete-product-button" class="btn btn-danger mt-3 delete-button" onclick="deleteLevel()">Delete Level</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center gap-5 mb-2">
+                    <button type="button" id="addpoolbonusbutton" class="btn mt-4 shadow poolbonus">Add Pool Bonus</button>
+                </div>
+                <div class="card p-4 border-0 m-4 shadow" style="background-color: rgb(243, 243, 243); display:none" id="poolbonusblock">
+                    <div class="d-flex justify-content-around m-0">
+                        <div class="mb-3 ">
+                            <label for="id_pool_bonus_percentage" class="form-label">{{ binary_form.pool_bonus_percentage.label }}</label>
+                            {{ binary_form.pool_bonus_percentage }}
+                        </div>
+             
+                        <div class="mb-3">
+                            <label for="id_pool_bonus_count" class="form-label">{{ binary_form.pool_bonus_count.label }}</label>
+                            {{ binary_form.pool_bonus_count }}
+                        </div>
+                    </div>
+                </div>
+            <div class="card p-4 shadow m-4 border-0 m-4" style="background-color:whitesmoke">
                 <div class="d-flex justify-content-around">
                     <div class="mb-3">
                         <label for="id_capping_scope" class="form-label">{{ binary_form.capping_scope.label }}</label>
@@ -378,4 +450,35 @@
         {% endif %}
     </div>
 </body>
+<script>
+    document.getElementById("addpoolbonusbutton").addEventListener('click', () => {
+        
+        if (document.getElementById("addpoolbonusbutton").textContent === "Add Pool Bonus") {
+            document.getElementById("addpoolbonusbutton").textContent = "Remove Pool Bonus";
+            document.getElementById("id_pool_bonus_percentage").value = 0;
+            document.getElementById("id_pool_bonus_count").value = 0;
+            document.getElementById('poolbonusblock').style.display = 'block';
+        } else {
+            document.getElementById("addpoolbonusbutton").textContent = "Add Pool Bonus";
+            document.getElementById("id_pool_bonus_percentage").value = 0;
+            document.getElementById("id_pool_bonus_count").value = 0;
+            document.getElementById('poolbonusblock').style.display = 'none';
+        }
+    })
+    document.getElementById("weaklegbutton").addEventListener('click', () => {
+        console.log("Weak Leg button clicked!");
+        document.getElementById('binaryPercentage').style.display = 'block';
+        document.getElementById('binaryRatioPair').style.display = 'none';
+        document.getElementById("id_ratio_amount").value = 0;
+        document.getElementById("id_ratio_choice_0").checked = false;
+        document.getElementById("id_ratio_choice_1").checked = false;
+        document.getElementById("id_ratio_choice_2").checked = false;
+    });
+    document.getElementById("pairratiobutton").addEventListener('click', () => {
+        console.log("Pair Ratio button clicked!");
+        document.getElementById('binaryRatioPair').style.display = 'flex';
+        document.getElementById('binaryPercentage').style.display = 'none';
+        document.getElementById("id_binary_bonus_percentage").value = 0;
+    });
+</script>
 </html>

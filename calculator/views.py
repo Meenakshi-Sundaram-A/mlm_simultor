@@ -23,22 +23,26 @@ def binarylevel_input_view(request):
             
             cycle = math.ceil(float(num_of_users) / float(users_per_cycle))
                 
-            
+            print(request.POST.get("ratio_choice"), request.POST.get('binary_bonus_percentage'), request.POST.get("ratio_amount"))
+            print("sadjkajsfdj")
+            print("Pool Bonus Percentage:",float(request.POST.get('pool_bonus_percentage')) if request.POST.get('pool_bonus_percentage') else 0)
+            print("Pool Bonus Count:",float(request.POST.get('pool_bonus_count')) if request.POST.get('pool_bonus_count') else 0)
             data = {
                     "num_of_users": int(request.POST.get('num_of_users')),
                     "product_price": product_price,
                     "users_per_product": users_per_product,
                     "sponsor_bonus_percentage": float(request.POST.get('sponsor_bonus_percentage')),
-                    "binary_bonus_percentage": float(request.POST.get('binary_bonus_percentage')),
+                    "binary_bonus_percentage": float(request.POST.get('binary_bonus_percentage')) if request.POST.get('binary_bonus_percentage') else 0,
+                    "pool_bonus_percentage": float(request.POST.get('pool_bonus_percentage')) if request.POST.get('pool_bonus_percentage') else 0,
+                    "pool_bonus_count": float(request.POST.get('pool_bonus_count')) if request.POST.get('pool_bonus_count') else 0,
                     "percentage_string": percentage_str,
-                    "ratio_choice": request.POST.get("ratio_choice"),
-                    "ratio_amount": float(request.POST.get("ratio_amount")),
+                    "ratio_choice": request.POST.get("ratio_choice") if request.POST.get("ratio_choice")!=None else "",
+                    "ratio_amount": float(request.POST.get("ratio_amount")) if request.POST.get("ratio_amount")!="" else 0,
                     "capping_scope": request.POST.getlist('capping_scope'),
                     "capping_amount": float(request.POST.get('capping_amount')),
                     "cycle": cycle,
                     "plan_type": "binary",
                 }
-
             response = requests.post('http://localhost:8080/api/processData', json=data)
             response.raise_for_status()
             results = response.json()
@@ -85,8 +89,10 @@ def unilevel_input_view(request):
                     "product_price": product_price,
                     "users_per_product": users_per_product,
                     "sponsor_bonus_percentage": float(request.POST.get('sponsor_bonus_percentage')),
+                    "pool_bonus_percentage": float(request.POST.get('pool_bonus_percentage')) if request.POST.get('pool_bonus_percentage') else 0,
+                    "pool_bonus_count": float(request.POST.get('pool_bonus_count')) if request.POST.get('pool_bonus_count') else 0,
                     "percentage_string": percentage_str,
-                    "capping_scope": request.POST.get('capping_scope'),
+                    "capping_scope": request.POST.getlist('capping_scope'),
                     "capping_amount": float(request.POST.get('capping_amount')),
                     "cycle": cycle,
                     "plan_type": "unilevel",
@@ -97,7 +103,7 @@ def unilevel_input_view(request):
             response.raise_for_status()
             results = response.json()
 
-            return render(request, 'display_members.html', {'all_results': results})
+            return render(request, 'unilevel_result.html', {'all_results': results})
 
         except ValueError as e:
             error_message = f"Input error: {str(e)}"
