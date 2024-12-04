@@ -14,13 +14,16 @@
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
     
     <style>
+        body{
+            font-weight: bold;
+        }
         .pie-chart-container {
             width: 80%;
             height: 500px;
             margin: auto;
         }
         .chart-container {
-            width: 50%;
+            width: 70%;
             height: auto;
             margin: auto;
         }
@@ -29,6 +32,7 @@
         }
         .toggle-button {
             transition: background-color 0.3s, color 0.3s; 
+            font-weight: bold;
         }
         
         .toggle-button.btn-info:hover {
@@ -39,17 +43,17 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4 text-center">Simulation Result</h2>
+        <h2 class="mb-4 text-center" style="font-weight: bold;">Simulation Result</h2>
         <div class="text-center">
             <button id="viewOverallCharts" class="btn btn-info mb-4 toggle-button">View Overall Profit and Expense</button>
             <button id="viewCycleCharts" class="btn btn-info mb-4 toggle-button">View Profit and Expense per Cycle</button>
         </div>
  
         <div class="mt-5" id="overallChartsContainer" style="display: block;">
-            <h2 class="text-center">OVERALL PROFIT & EXPENSE</h2>
+            <h2 class="text-center" style="font-weight: bold;">OVERALL PROFIT & EXPENSE</h2>
             <div class="my-5 rounded shadow" style="background-color:whitesmoke">
                 <div class="py-3">
-                    <h3 class="text-center">Revenue vs Expense Overview</h3>
+                    <h3 class="text-center" style="font-weight: bold;">Revenue vs Expense Overview</h3>
                     <br>
                     <div class="pie-chart-container mb-3" id="revenueExpenseChart"></div>
                 </div>
@@ -57,7 +61,7 @@
     
             <div class="my-5 rounded shadow" style="background-color:whitesmoke">
                 <div class="py-3">
-                    <h3 class="text-center">Expense Overview</h3>
+                    <h3 class="text-center" style="font-weight: bold;">Expense Overview</h3>
                     <br>
                     <div class="pie-chart-container mb-3" id="bonusChart"></div>
                 </div>
@@ -65,23 +69,23 @@
         </div>
 
         <div class="mt-5" id="cycleChartsContainer" style="display: none;">
-            <h2 class="text-center">CYCLEWISE PROFIT & EXPENSE</h2>
+            <h2 class="text-center" style="font-weight: bold;">CYCLEWISE PROFIT & EXPENSE</h2>
             <div class="my-5 py-5 rounded shadow" style="background-color:whitesmoke">
-                <h3 class="text-center">Profit Per Cycle</h3>
+                <h3 class="text-center" style="font-weight: bold;">Profit Per Cycle</h3>
                 <div class="chart-container">
                     <canvas id="profitCycleChart"></canvas>
                 </div>
             </div>
 
             <div class="my-5 py-5 rounded shadow" style="background-color:whitesmoke">
-                <h3 class="text-center">Revenue vs Expense Per Cycle</h3>
+                <h3 class="text-center" style="font-weight: bold;">Revenue vs Expense Per Cycle</h3>
                 <div class="chart-container">
                     <canvas id="revenueExpenseCycleChart"></canvas>
                 </div>
             </div>
     
             <div class="my-5 py-5 rounded shadow" style="background-color:whitesmoke">
-                <h3 class="text-center">Expense Per Cycle</h3>
+                <h3 class="text-center" style="font-weight: bold;">Expense Per Cycle</h3>
                 <div class="chart-container">
                     <canvas id="expenseCycleChart"></canvas>
                 </div>
@@ -98,6 +102,7 @@
         let totalPoolBonus = 0;
         let totalRevenue = 0;
         let totalExpense = 0;
+        let totalProfit = 0;
 
         let sponsorBonusData = [];
         let matchingBonusData = [];
@@ -114,6 +119,7 @@
             totalPoolBonus += result.pool_bonus || 0;
             totalRevenue += result.revenue || 0;
             totalExpense += result.expense || 0;
+            totalProfit += result.profit || 0;
 
             sponsorBonusData.push(result.total_sponsor_bonus || 0);
             matchingBonusData.push(result.total_matching_bonus || 0);
@@ -136,7 +142,8 @@
             
             const revenueExpenseColors = [
                 am4core.color("#d94af1"),  // Revenue 
-                am4core.color("#4ae0f1")   // Expense
+                am4core.color("#4ae0f1"),  // Expense
+                am4core.color("#7359e5")   // Profit
             ];
         
             let bonusChart = am4core.create("bonusChart", am4charts.PieChart3D);
@@ -157,7 +164,8 @@
             let revenueExpenseChart = am4core.create("revenueExpenseChart", am4charts.PieChart3D);
             revenueExpenseChart.data = [
                 { "category": "Revenue", "value": totalRevenue },
-                { "category": "Expense", "value": totalExpense }
+                { "category": "Expense", "value": totalExpense },
+                { "category": "Profit", "value": totalProfit }
             ];
             let revenueExpenseSeries = revenueExpenseChart.series.push(new am4charts.PieSeries3D());
             revenueExpenseSeries.dataFields.value = "value";
